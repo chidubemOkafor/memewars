@@ -1,0 +1,58 @@
+Primary (Brand):      #6C63FF   (Vibrant Purple)  
+Primary Dark:         #4F46E5   (Deeper Indigo for hover/active)  
+Secondary:            #F97316   (Energetic Orange, accents)  
+Background Light:     #F9FAFB   (Soft gray, light theme)  
+Background Dark:      #121212   (Dark mode background)  
+Card Light:           #FFFFFF   (Meme containers, light theme)  
+Card Dark:            #1F2937   (Meme containers, dark theme)  
+Text Dark:            #111827   (Headings, dark on light)  
+Text Light:           #FFFFFF   (Headings, light on dark)  
+Border/Subtle Gray:   #E5E7EB   (borders, dividers)
+
+Vote Colors (Reddit-style)
+Upvote Active:   #22C55E   (Green)  
+Downvote Active: #EF4444   (Red)  
+Inactive:        #9CA3AF   (Neutral Gray)
+
+3. Typography
+
+Headings / Titles → Poppins Bold (Google Fonts)
+
+Fun, rounded, meme-friendly.
+
+Body Text → Inter Regular (Google Fonts)
+
+Clean, modern, easy to read.
+
+Logo / Branding → Luckiest Guy or Anton
+
+Funky, bold, stands out for meme culture.
+
+Example:
+
+H1: Poppins Bold, 32px, #111827  
+H2: Poppins SemiBold, 24px  
+Body: Inter Regular, 16px, #374151  
+Captions/Meta: Inter Light, 14px, #6B7280  
+
+4. Buttons
+
+Primary Button (Upload / Vote / Join)
+
+Background: Primary #6C63FF
+
+Text: White
+
+Radius: 12px (rounded but not too pill-y)
+
+Hover: Darker #4F46E5
+
+Secondary Button (Cancel / Neutral)
+
+Background: White / Transparent
+
+Border: 1px solid #E5E7EB
+
+Text: #111827
+
+Hover: Light gray background

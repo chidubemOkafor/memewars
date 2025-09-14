@@ -1,0 +1,87 @@
+Home / Campaigns Overview
+-----------------------------------------------------
+|   Meme Wars 🖼🔥                                    |
+|   [ Current Campaigns ] [ Upcoming ] [ Past ]     |
+-----------------------------------------------------
+
+Active Campaigns:
+-----------------------------------------------------
+| 🎮 Gaming Memes Week  |  📱 Tech Meme Battle      |
+| Phase: Uploading (3d) |  Phase: Voting (2d left) |
+| [ Upload Meme ]       |  [ Vote Now ]            |
+-----------------------------------------------------
+
+Upcoming Campaigns:
+-----------------------------------------------------
+| 🏆 Anime Meme Clash (Starts in 5d)                |
+-----------------------------------------------------
+
+Past Campaigns:
+-----------------------------------------------------
+| 🎃 Halloween Special - WINNER: @memeLord3000      |
+| [ View Leaderboard ]                              |
+-----------------------------------------------------
+
+Campaign Detail Page
+-----------------------------------------------------
+|  🎮 Gaming Memes Week                             |
+|  Theme: Create your funniest GTA VI memes         |
+|  Phase: Upload (Ends in 3 days)                   |
+-----------------------------------------------------
+
+[ Upload Meme Button ]
+
+Submissions so far:
+-----------------------------------------------------
+| [meme1.jpg]     [meme2.jpg]     [meme3.jpg]      |
+| @user1          @user2          @user3           |
+-----------------------------------------------------
+
+If Voting Phase:
+-----------------------------------------------------
+|  Voting: Gaming Memes Week (2d left)              |
+-----------------------------------------------------
+
+Sort by: [Most Voted] [Newest] [Random]
+
+-----------------------------------------------------
+| Meme1.jpg   👍 230   👎 15    by @user1           |
+| Meme2.jpg   👍 120   👎 60    by @user2           |
+| Meme3.jpg   👍 75    👎 30    by @user3           |
+-----------------------------------------------------
+
+Leaderboard (After Campaign Ends)
+-----------------------------------------------------
+|  🏆 Results: Gaming Memes Week                    |
+-----------------------------------------------------
+
+🥇 #1 MemeLord3000 - 520 votes
+[ Thumbnail of meme ]
+
+🥈 #2 FunnyGuy - 430 votes
+[ Thumbnail of meme ]
+
+🥉 #3 CatMemeQueen - 410 votes
+[ Thumbnail of meme ]
+
+Full Leaderboard:
+-----------------------------------------------------
+| Rank | User         | Votes | Meme Thumbnail      |
+-----------------------------------------------------
+| 4    | @memebro     | 380   | [thumb]             |
+| 5    | @dankmaster  | 350   | [thumb]             |
+-----------------------------------------------------
+
+Profile Page (Optional, for users)
+-----------------------------------------------------
+|  @memeLord3000                                     |
+|  Total Memes: 12   |  Total Votes Earned: 2,350   |
+|  Badges: 🥇 Winner x2, 👑 OG Uploader              |
+-----------------------------------------------------
+
+My Memes:
+-----------------------------------------------------
+| Meme1.jpg - 520 votes (Winner 🥇)                  |
+| Meme2.jpg - 200 votes                              |
+| Meme3.jpg - 150 votes                              |
+-----------------------------------------------------
