@@ -1,7 +1,8 @@
 ✅ Core Features First (Week 1)
 
-Auth → X/Twitter sign-in (Clerk or custom).
+Auth → X/Twitter sign-in (Clerk or custom). ✅
 Campaigns → Auto-create based on your 2-weeks/1-week cycle.
+Added leveling feature -> you can level up when you create a post and vote 
 Meme Upload → Users can submit memes tied to a campaign.
 Voting System → Reddit-style upvote/downvote, 1 vote per meme per user.
 Leaderboard → Ranks memes by votes at the end of campaign.
@@ -16,3 +17,4 @@ Casts votes in the first campaign(s).
 Stored in user_badges table.
 Only available once (limited edition).
 This keeps it exclusive and makes early users feel special.
+

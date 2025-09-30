@@ -3,3 +3,4 @@ uvicorn
 supabase
 psycopg2-binary
 python-multipart
+jwt
