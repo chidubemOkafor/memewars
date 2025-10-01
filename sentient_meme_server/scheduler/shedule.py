@@ -25,8 +25,10 @@ def start_voting(camp_id: int):
         camp = db.query(Campaign).filter(Campaign.id == camp_id).first()
         if camp:
             # if no memes/art posted, end immediately
-            if not camp.has_memes:  # pseudo-field, adapt to your logic
+            if len(camp.memes) == 0:
+                print("ended with not meme created")
                 camp.isEnded = True
+                
             else:
                 camp.isPosting = False
                 camp.isVoting = True

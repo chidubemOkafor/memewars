@@ -22,6 +22,7 @@
 
 venv/
 sentient_meme_server/venv/
+sentient_meme_server/logs.log
 __pycache__/
 *.pyc
 *.pyo
