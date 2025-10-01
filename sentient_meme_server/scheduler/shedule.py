@@ -32,7 +32,6 @@ def start_voting(camp_id: int):
                 camp.isVoting = True
                 db.commit()
 
-                # schedule voting end (4 days after start_date)
                 scheduler.add_job(
                     end_campaign,
                     "date",

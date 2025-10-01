@@ -1,18 +1,7 @@
 from sqlalchemy.orm import Session
-from models.models import Campaign
+from models.models import Campaign, Meme
+from sqlalchemy import desc, asc
 from datetime import datetime
-
-# class Campaign(Base):
-#     __tablename__ = 'campaigns'
-
-#     id = Column(Integer, primary_key=True, index=True)
-#     name = Column(String, unique=True, index=True)
-#     description = Column(String)
-#     start_date = Column(DateTime)
-#     isVoting = Column(Boolean, default = False)
-#     isPosting = Column(Boolean,  default = True)
-#     created_at = Column(DateTime, default=datetime.now)
-#     updated_at = Column(DateTime(timezone=True), default=datetime.now, onupdate=datetime.now)
 
 def create_campaign(name: str, description: str, start_date: datetime, db: Session):
     existing_campaign = db.query(Campaign).filter(Campaign.name == name).first()
@@ -94,6 +83,46 @@ def get_active_campaigns(isPosting, isVoting, isEnded, isUpcoming, db: Session):
             }
             for c in campaigns
         ],
+    }
+
+def get_campaign_ranking(db: Session, campaign_id: int, page: int = 1, per_page: int = 10):
+    if page < 1:
+        return {
+            "error": "page cannot be less than 1"
+        }
+    
+    offset = (page - 1) * per_page
+
+    memes = (
+        db.query(Meme)
+        .filter(Meme.campaign_id == campaign_id)
+        .order_by(desc(Meme.score), asc(Meme.created_at))
+        .offset(offset)
+        .limit(per_page)
+        .all()
+    )
+
+    total_memes = db.query(Meme).filter(Meme.campaign_id == campaign_id).count()
+    total_pages = (total_memes + per_page - 1) // per_page
+
+    ranked_memes = []
+    for idx, m in enumerate(memes, start=offset + 1):
+        ranked_memes.append({
+            "rank": idx,
+            "id": m.id,
+            "url": m.url,
+            "score": m.score,
+            "created_at": m.created_at,
+        })
+
+    return {
+        "message": "ranking fetched successfully",
+        "campaign_id": campaign_id,
+        "page": page,
+        "per_page": per_page,
+        "total_pages": total_pages,
+        "total_memes": total_memes,
+        "memes": ranked_memes
     }
 
 def get_campaign(camp_id: int, db: Session):

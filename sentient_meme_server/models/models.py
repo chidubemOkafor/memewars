@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from models.database import engine
@@ -24,6 +24,7 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime(timezone=True), default=datetime.now, onupdate=datetime.now)
 
+    memes = relationship("Meme", back_populates="user", cascade="all, delete-orphan")
 
 class Campaign(Base):
     __tablename__ = 'campaigns'
@@ -41,31 +42,44 @@ class Campaign(Base):
 
     memes = relationship("Meme", back_populates="campaign", cascade="all, delete-orphan")
 
+    leaderboard = relationship("Leaderboard", back_populates="campaign", cascade="all, delete-orphan")
+
 class Meme(Base):
-    __tablename__ = 'meme'
+    __tablename__ = "memes"
 
     id = Column(Integer, primary_key=True, index=True)
     url = Column(String)
     campaign_id = Column(Integer, ForeignKey("campaigns.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
-    upvotes = Column(Integer, default=0)
-    downvotes = Column(Integer, default=0)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime(timezone=True), default=datetime.now, onupdate=datetime.now)
+    score = Column(Integer, default=0)  # cached total score
 
+    votes = relationship("Vote", back_populates="memes")
     campaign = relationship("Campaign", back_populates="memes")
     user = relationship("User", back_populates="memes")
 
-class Leaderboard(Base):
-    __tablename__ = 'leaderboard'
+class Vote(Base):
+    __tablename__ = "votes"
 
     id = Column(Integer, primary_key=True, index=True)
-    meme_id = Column(Integer, ForeignKey("meme.id"))
+    user_id = Column(Integer, nullable=False)
+    meme_id = Column(Integer, ForeignKey("memes.id"), nullable=False)
+    vote = Column(Integer, nullable=False)  # +1 for upvote, -1 for downvote
+
+    item = relationship("Item", back_populates="votes")
+
+    __table_args__ = (UniqueConstraint("user_id", "meme_id", name="_user_meme_uc"),)
+
+class Leaderboard(Base):
+    __tablename__ = 'leaderboards'
+
+    id = Column(Integer, primary_key=True, index=True)
+    meme_id = Column(Integer, ForeignKey("memes.id"))
     campaign_id = Column(Integer, ForeignKey("campaigns.id"))
     score = Column(Integer, default=0)
 
     meme = relationship("Meme")
-    campaign = relationship("Campaign")
-
+    campaign = relationship("Campaign", back_populates="leaderboards")
 
 Base.metadata.create_all(bind=engine)
