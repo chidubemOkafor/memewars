@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from services.campaign_service import create_campaign, delete_campaign, get_active_campaigns
+from services.campaign_service import create_campaign, delete_campaign, get_active_campaigns, get_campaign
 from sqlalchemy.orm import Session
 from models.dependency import get_db
 from datetime import datetime
@@ -23,6 +23,7 @@ async def create(name: str, description: str, start_date: datetime,  db: Session
     except Exception as e:
         print(f"error: {e}")
 
+@router.delete("/")
 async def delect_camp(camp_id: str, db: Session = Depends(get_db)):
     try:
         campaign = delete_campaign(camp_id, db)
@@ -39,6 +40,8 @@ async def delect_camp(camp_id: str, db: Session = Depends(get_db)):
 #  voting is when only the voting is true
 #  ended is when the campain has ended
 # upcoming only the campaing this not active
+
+@router.get("")
 async def get_campaigns(
         isPosting: Optional[bool] = None,
         isVoting: Optional[bool] = None,
@@ -51,10 +54,16 @@ async def get_campaigns(
     except Exception as e:
         print(f"error: {e}")
 
+@router.get("/get_campaign")
+async def get_s_campaign(camp_id: int, db: Session = Depends(get_db)):
+    try: 
+        campaigns = get_campaign(camp_id, db)
+        return campaigns
+    except Exception as e:
+        print(f"error: {e}")
 
-# async def get_campaign(camp_id: int, db: Session = Depends(get_db)):
-#     try: 
-#         campaigns = 
-#         return campaigns
-#     except Exception as e:
+# async def get_active_camp_entries():
+#     try:
+
+#     except  Exception as e:
 #         print(f"error: {e}")

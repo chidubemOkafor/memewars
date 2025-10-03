@@ -3,6 +3,7 @@ from models.models import Campaign
 from models.database import SessionLocal
 from sqlalchemy.orm import Session
 from datetime import timedelta
+from main import logger
 
 scheduler = BackgroundScheduler()
 scheduler.start()
@@ -26,6 +27,7 @@ def start_voting(camp_id: int):
         if camp:
             # if no memes/art posted, end immediately
             if len(camp.memes) == 0:
+                logger.info(f"ended reason: not enough memes created for {function.__name__}")
                 print("ended with not meme created")
                 camp.isEnded = True
                 
@@ -34,6 +36,7 @@ def start_voting(camp_id: int):
                 camp.isVoting = True
                 db.commit()
 
+                logger.info(f"end campaign job awaited for {camp.start_date + timedelta(days=4)} for {function.__name__}")
                 scheduler.add_job(
                     end_campaign,
                     "date",
@@ -51,6 +54,7 @@ def start_campaign(camp_id: int):
             camp.isPosting = True
             db.commit()
 
+            logger.info(f"start voting job awaited for {camp.start_date + timedelta(days=2)} for {function.__name__}")
             scheduler.add_job(
                 start_voting,
                 "date",
@@ -61,6 +65,7 @@ def start_campaign(camp_id: int):
         db.close()
 
 def schedule_campaign(camp: Campaign):
+    logger.info(f"start campaign job awaited for {camp.start_date} for {function.__name__}")
     scheduler.add_job(
         start_campaign,
         "date",

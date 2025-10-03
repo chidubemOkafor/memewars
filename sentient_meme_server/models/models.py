@@ -1,8 +1,9 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, UniqueConstraint, Enum
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from models.database import engine
+from types_1 import CategoryEnum, RarityEnum
 
 Base = declarative_base()
 
@@ -25,6 +26,8 @@ class User(Base):
     updated_at = Column(DateTime(timezone=True), default=datetime.now, onupdate=datetime.now)
 
     memes = relationship("Meme", back_populates="user", cascade="all, delete-orphan")
+    votes = relationship("Vote", back_populates="user", cascade="all, delete-orphan")
+    user_badges = relationship("UserBadge", back_populates="user", cascade="all, delete-orphan")
 
 class Campaign(Base):
     __tablename__ = 'campaigns'
@@ -40,15 +43,41 @@ class Campaign(Base):
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime(timezone=True), default=datetime.now, onupdate=datetime.now)
 
-    memes = relationship("Meme", back_populates="campaign", cascade="all, delete-orphan")
+    memes = relationship("Meme", back_populates="campaigns")
+    leaderboard = relationship("Leaderboard", back_populates="campaigns")
 
-    leaderboard = relationship("Leaderboard", back_populates="campaign", cascade="all, delete-orphan")
+class Badge(Base):
+    __tablename__ = "badges"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    rarity = Column(Enum(RarityEnum), nullable=False)
+    category = Column(Enum(CategoryEnum), nullable=False)
+    requirements = Column(String, nullable=False)
+    badge_image = Column(String, nullable=False)
+
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime(timezone=True), default=datetime.now, onupdate=datetime.now)
+
+
+class UserBadge(Base):
+    __tablename__ = "userbadges"
+
+    id = Column(Integer, primary_key=True, index=True)
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime(timezone=True), default=datetime.now, onupdate=datetime.now)
+
+    badge = relationship("Badge", back_populates="userbadges")
+    user = relationship("User", back_populates="userbadges")
+    
 
 class Meme(Base):
     __tablename__ = "memes"
 
     id = Column(Integer, primary_key=True, index=True)
-    url = Column(String)
+    url = Column(String, nullable=False)
+    title = Column(String, nullable=False)
     campaign_id = Column(Integer, ForeignKey("campaigns.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
     created_at = Column(DateTime, default=datetime.now)
@@ -67,7 +96,8 @@ class Vote(Base):
     meme_id = Column(Integer, ForeignKey("memes.id"), nullable=False)
     vote = Column(Integer, nullable=False)  # +1 for upvote, -1 for downvote
 
-    item = relationship("Item", back_populates="votes")
+    item = relationship("Meme", back_populates="votes")
+    user = relationship("User", back_populates="votes")
 
     __table_args__ = (UniqueConstraint("user_id", "meme_id", name="_user_meme_uc"),)
 

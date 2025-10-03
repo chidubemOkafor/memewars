@@ -2,17 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Union
 from routers import auth
-import logging
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs.log'),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -35,3 +24,4 @@ async def read_item(item_id: int, q: Union[str, None] = None):
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(auth.router, prefix="/campaign", tags=["campaign"])
 app.include_router(auth.router, prefix="/meme", tags=["meme"])
+app.include_router(auth.router, prefix="/profile", tags=["profile"])

@@ -62,5 +62,3 @@ async def auth_callback(
         return {"message": "Logged in!"}
     except Exception as e:
         print(f"error: {e}")
-    
-

@@ -1,0 +1,37 @@
+Badge Name	Emoji	Rarity	Category	Description
+First Upload	        🎉	COMMON	    ACHIEVEMENT	Upload your first meme.
+First Vote	            👍	COMMON	    ACHIEVEMENT	Cast your first vote.
+Early Bird	            🐦	UNCOMMON	PARTICIPATION	Upload a meme within 24 hours of a campaign starting.
+Commenter	            💬	COMMON	    SOCIAL	Leave your first comment.
+Uploader	            📸	UNCOMMON	PARTICIPATION	Upload 10 memes.
+Super Uploader	        🚀	RARE	    PARTICIPATION	Upload 100 memes.
+Voter	                🗳️	 UNCOMMON	 PARTICIPATION	Cast 50 votes.
+Super Voter	            🔥	RARE	    PARTICIPATION	Cast 500 votes.
+Campaigner	            🏁	UNCOMMON	PARTICIPATION	Participate in 10 different campaigns.
+On the Podium	        🥉	UNCOMMON	PERFORMANCE	Place in top 3 of any campaign.
+Winner Winner	        🥇	RARE	    PERFORMANCE	Win 1 campaign.
+Champion	            👑	EPIC	    PERFORMANCE	Win 5 campaigns.
+Consistent Performer	📊	RARE	    PERFORMANCE	Average meme score > 20 votes.
+Viral Meme	            🌐	EPIC	    CREATIVITY	A single meme scores 100+ votes.
+Liked Artist	        ❤️	UNCOMMON	SOCIAL	Receive 100 total votes across all memes.
+Beloved Creator	        🌟	RARE	    SOCIAL	Receive 1,000 total votes.
+Supporter	            🙌	COMMON	    SOCIAL	Vote for at least 10 different users’ memes.
+Friendly Rival	        ⚔️	UNCOMMON	SOCIAL	Compete in campaigns with the same user 5 times.
+Meme Legend	            🐉	LEGENDARY	SPECIAL	Win 50 campaigns.
+Underdog Victory	    🐺	EPIC	    SPECIAL	Win a campaign with a meme that wasn’t in the top 10 halfway through.
+Collector	            🖼️	 EPIC	     SPECIAL Upload a meme to every active campaign in a single week.
+Loyal Player	        🔑	EPIC	    SPECIAL	Log in every day for 30 days.
+OG                      🏆  LEGENDARY   SPECIAL Be among the first 100 users to join the platform.
+
+
+RELATED
+Winner Winner	        🥇	RARE	    PERFORMANCE	Win 1 campaign.
+Champion	            👑	EPIC	    PERFORMANCE	Win 5 campaigns.
+
+Uploader	            📸	UNCOMMON	PARTICIPATION	Upload 10 memes.
+Super Uploader	        🚀	RARE	    PARTICIPATION	Upload 100 memes.
+
+Liked Artist	        ❤️	UNCOMMON	SOCIAL	Receive 100 total votes across all memes.
+Beloved Creator	        🌟	RARE	    SOCIAL	Receive 1,000 total votes.
+
+

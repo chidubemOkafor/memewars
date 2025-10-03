@@ -133,9 +133,3 @@ def generate_token(payload: dict, db: Session):
     db.close()
 
     return access_token
-
-
-    
-
-    
-    

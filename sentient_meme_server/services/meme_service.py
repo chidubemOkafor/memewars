@@ -5,21 +5,22 @@ from sqlalchemy import func, asc, desc
 import supabase
 from fastapi import UploadFile
 from main import logger
+from util.helper import func_name
 
-async def store_meme(file: UploadFile, camp_id: int, user_id: int, db: Session):
+async def store_meme(file: UploadFile, camp_id: int, user_id: int, db: Session, title: str):
     isValidUser(user_id, db)
     
     isValidCampaign = db.query(Campaign).filter(Campaign.id == camp_id).first()
     if not isValidCampaign:
-        logger.error(f"not campaign with that id for {function.__name__}")
+        logger.error(f"not campaign with that id for {func_name()}")
         return {"error": "not campaign with that id"}, 404
 
     if isValidCampaign.isEnded:
-        logger.info(f"oops campaign has ending for {function.__name__}")
+        logger.info(f"oops campaign has ending for {func_name()}")
         return {"message", "oops campaign has ending"}
 
     if not isValidCampaign.isPosting:
-        logger.info(f"posting has been closed for campaign try voting for {function.__name__}")
+        logger.info(f"posting has been closed for campaign try voting for {func_name()}")
         return {"message", "posting has been closed for campaign try voting"}
     
     # check if the user has already uploaded a meme
@@ -39,24 +40,25 @@ async def store_meme(file: UploadFile, camp_id: int, user_id: int, db: Session):
     supabase.storage.from_("images_bucket").upload(
         f"uploads/{file.filename}", contents
     )
-    logger.info(f"Meme uploaded successfully for {function.__name__}")
+    logger.info(f"Meme uploaded successfully for {func_name()}")
 
     public_url = supabase.storage.from_("images_bucket").get_public_url(
         f"uploads/{file.filename}"
     )
-    logger.info(f"Url fetched successfully for {function.__name__}")
+    logger.info(f"Url fetched successfully for {func_name()}")
 
     new_meme = Meme(
         url=public_url,
         campaign_id=camp_id,
-        user_id=user_id
+        user_id=user_id,
+        title=title
     )
 
     db.add(new_meme)
     db.commit()
     db.refresh(new_meme)
 
-    logger.info(f"Meme created successfully for {function.__name__}")
+    logger.info(f"Meme created successfully for {func_name()}")
 
     return {
         "message": "meme uploaded successfully", 
@@ -76,7 +78,7 @@ async def store_meme(file: UploadFile, camp_id: int, user_id: int, db: Session):
 def get_user_memes(user_id: int, db: Session):
     user: User = isValidUser(user_id, db)
 
-    logger.info(f"fetched meme successfully for {user_id} for {function.__name__}")
+    logger.info(f"fetched meme successfully for {user_id} for {func_name()}")
 
     return {
         "message": "fetched meme successfully",
@@ -99,7 +101,7 @@ def user_meme_rank(camp_id: int, user_id: int, db: Session):
 
     campaign = db.query(Campaign).filter(Campaign.id == camp_id).first()
     if not campaign:
-        logger.error(f"Campaign not found for {function.__name__}")
+        logger.error(f"Campaign not found for {func_name()}")
         return {"error": "Campaign not found"}, 404
 
     ranked_memes = (
@@ -126,10 +128,10 @@ def user_meme_rank(camp_id: int, user_id: int, db: Session):
     )
 
     if not user_ranks:
-        logger.error(f"User: {user.name} has no meme in this campaign for {function.__name__}")
+        logger.error(f"User: {user.name} has no meme in this campaign for {func_name()}")
         return {"error": "User has no meme in this campaign"}, 404
 
-    logger.info(f"User: {user.name} rank returned successfully for {function.__name__}")
+    logger.info(f"User: {user.name} rank returned successfully for {func_name()}")
     return {
         "user_id": user_id,
         "campaign_id": camp_id,
@@ -168,19 +170,19 @@ def get_meme(meme_id: int, db: Session):
     }
 
 def handle_voting(user_id: int, meme_id: int, db: Session, voting_type: str):
-    isValidUser(user_id, db)
+    user = isValidUser(user_id, db)
 
     meme = db.query(Meme).filter(Meme.id == meme_id).first()
     if not meme:
-        logger.error(f"no meme with that id for {function.__name__}")
+        logger.error(f"no meme with that id for {func_name()}")
         return {"error": "no meme with that id"}, 404
 
     if meme.campaign.isEnded:
-        logger.error(f"oops campaign has ended for {function.__name__}")
+        logger.error(f"oops campaign has ended for {func_name()}")
         return {"error": "oops campaign has ended"}, 400
     
     if not meme.campaign.isVoting:
-        logger.error(f"voting is not allowed yet for {function.__name__}")
+        logger.error(f"voting is not allowed yet for {func_name()}")
         return {"error": "voting is not allowed yet"}, 400
 
     if voting_type == "upvote":
@@ -188,12 +190,13 @@ def handle_voting(user_id: int, meme_id: int, db: Session, voting_type: str):
     elif voting_type == "downvote":
         vote_value = -1
     else:
-        logger.error(f"invalid voting type for {function.__name__}")
+        logger.error(f"invalid voting type for {func_name()}")
         return {"error": "invalid voting type"}, 400
 
     vote = Vote(user_id=user_id, meme_id=meme_id, vote=vote_value)
     meme.score += vote_value
 
+    db.add(user)
     db.add(vote)
     db.add(meme)
 
@@ -201,16 +204,16 @@ def handle_voting(user_id: int, meme_id: int, db: Session, voting_type: str):
         db.commit()
     except IntegrityError:
         db.rollback()
-        logger.error(f"user has already voted on this meme for {function.__name__}")
+        logger.error(f"user has already voted on this meme for {func_name()}")
         return {"error": "user has already voted on this meme"}, 400
 
     db.refresh(meme)
-    logger.info(f"vote recorded successfull for {function.__name__}")
+    logger.info(f"vote recorded successfull for {func_name()}")
     return {"message": "vote recorded successfully", "score": meme.score}
 
 def isValidUser(user_id: int, db: Session):
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
-        logger.error(f"user id does not exist or does not belong to user for {function.__name__}")
+        logger.error(f"user id does not exist or does not belong to user for {func_name()}")
         return {"error": "user id does not exist or does not belong to user"}, 404
     return user
