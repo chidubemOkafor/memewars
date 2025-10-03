@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, U
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from models.database import engine
-from types_1 import CategoryEnum, RarityEnum
+from types_1 import CategoryEnum, RarityEnum, RoleEnum
 
 Base = declarative_base()
 
@@ -20,6 +20,7 @@ class User(Base):
     display_name = Column(String)
     profile_image_url = Column(String)
     token_expires_at = Column(DateTime)
+    role = Column(Enum(RoleEnum), default=RoleEnum.USER)
     scope = Column(String)
     token_type = Column(String)
     created_at = Column(DateTime, default=datetime.now)

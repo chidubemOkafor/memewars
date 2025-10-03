@@ -8,13 +8,4 @@ Voting System → Reddit-style upvote/downvote, 1 vote per meme per user.
 Leaderboard → Ranks memes by votes at the end of campaign.
 Auto-close & restart campaigns → Backend cron job / Supabase scheduled functions.
 
-🏅 Minimal Badge (Phase 2 — add after a week)
-
-OG Memer
-Earned when:
-Uploads a meme in the very first campaign(s).
-Casts votes in the first campaign(s).
-Stored in user_badges table.
-Only available once (limited edition).
-This keeps it exclusive and makes early users feel special.
 

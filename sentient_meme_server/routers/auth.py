@@ -3,10 +3,15 @@ from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from typing import Optional 
 from services.auth_service import get_login_url, generate_access_token, create_user, generate_token
+from types_1 import RoleEnum
 from x.x_functions import get_x_user_details
 from models.dependency import get_db
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 router = APIRouter()
 
 @router.get("")
@@ -20,6 +25,7 @@ async def auth_callback(
     db: Session = Depends(get_db),
     response: Response = None
 ):
+    CREATOR_USERNAME = os.getenv("")
     try:
         if not code:
             return {"error": "Missing code"}
@@ -39,12 +45,13 @@ async def auth_callback(
             profile_image_url=user_data["data"].get("profile_image_url", ""),
             token_expires_at=datetime.now() + timedelta(seconds=token_data["expires_in"]),
             scope=token_data["scope"],
+            role = RoleEnum.CREATOR if user_data["data"]["username"] == CREATOR_USERNAME else RoleEnum.USER,
             token_type=token_data["token_type"],
             db=db
         )
 
         access_token = generate_token(
-            {"user_id": created_user.id, "username": created_user.username},
+            {"user_id": created_user.id, "role": created_user.role},
             db=db
         )
 
