@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Union
-from routers import auth
+from routers import auth, user, owner
 
 app = FastAPI()
 
@@ -17,11 +16,9 @@ app.add_middleware(
 async def read_root():
     return {"hello": "world"}
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(auth.router, prefix="/campaign", tags=["campaign"])
 app.include_router(auth.router, prefix="/meme", tags=["meme"])
 app.include_router(auth.router, prefix="/profile", tags=["profile"])
+app.include_router(owner.router, prefix="/owner",tags=["owner"])

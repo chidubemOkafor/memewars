@@ -8,8 +8,6 @@ Super Uploader	        🚀	RARE	    PARTICIPATION	Upload 100 memes.
 Voter	                🗳️	 UNCOMMON	 PARTICIPATION	Cast 50 votes.
 Super Voter	            🔥	RARE	    PARTICIPATION	Cast 500 votes.
 Campaigner	            🏁	UNCOMMON	PARTICIPATION	Participate in 10 different campaigns.
-On the Podium	        🥉	UNCOMMON	PERFORMANCE	Place in top 3 of any campaign.
-Winner Winner	        🥇	RARE	    PERFORMANCE	Win 1 campaign.
 Champion	            👑	EPIC	    PERFORMANCE	Win 5 campaigns.
 Consistent Performer	📊	RARE	    PERFORMANCE	Average meme score > 20 votes.
 Viral Meme	            🌐	EPIC	    CREATIVITY	A single meme scores 100+ votes.

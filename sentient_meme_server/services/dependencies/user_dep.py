@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import jwt
 import os
 
+from types_1 import ROLE_PERMISSIONS
+
 load_dotenv()
 
 SECRET_KEY = os.getenv("ACCESS_SECRET")
@@ -42,15 +44,14 @@ def get_user(request: Request):
             detail="Invalid token payload",
         )
 
-    return {"user_id": user_id}
+    return {"user_id": user_id, "role": role}
 
-def require_role(required_roles: list[str]):
-    def wrapper(user: Dict = Depends(get_user)):
-        if user["role"] not in required_roles:
+def require_permission(action: str):
+    def dependency(user=Depends(get_user)):
+        if action not in ROLE_PERMISSIONS.get(user["role"], []):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not enough permissions",
+                detail="Not enough permissions"
             )
         return user
-    return wrapper
-
+    return dependency

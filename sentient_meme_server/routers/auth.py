@@ -25,7 +25,7 @@ async def auth_callback(
     db: Session = Depends(get_db),
     response: Response = None
 ):
-    CREATOR_USERNAME = os.getenv("")
+    CREATOR_USERNAME = os.getenv("CREATOR_USERNAME")
     try:
         if not code:
             return {"error": "Missing code"}
@@ -45,13 +45,13 @@ async def auth_callback(
             profile_image_url=user_data["data"].get("profile_image_url", ""),
             token_expires_at=datetime.now() + timedelta(seconds=token_data["expires_in"]),
             scope=token_data["scope"],
-            role = RoleEnum.CREATOR if user_data["data"]["username"] == CREATOR_USERNAME else RoleEnum.USER,
             token_type=token_data["token_type"],
-            db=db
+            db=db,
+            role = RoleEnum.CREATOR if user_data["data"]["username"] == CREATOR_USERNAME else RoleEnum.USER
         )
-
+        
         access_token = generate_token(
-            {"user_id": created_user.id, "role": created_user.role},
+            {"user_id": created_user.id, "role": created_user.role.value},
             db=db
         )
 
@@ -60,7 +60,7 @@ async def auth_callback(
         response.set_cookie(
             key="access_token",
             value=access_token,
-            httponly=True,
+            httponly=False,
             secure=True,
             samesite="Strict",
             max_age=7200
@@ -69,3 +69,5 @@ async def auth_callback(
         return {"message": "Logged in!"}
     except Exception as e:
         print(f"error: {e}")
+
+    # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiY3JlYXRvciIsImV4cCI6MTc1OTY4Njc4Mn0.KRgqwhHlwi-mpbNcsd3e77xbYSu4b1FaLFfdKTUMVv0

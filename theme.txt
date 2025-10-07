@@ -51,7 +51,7 @@ Secondary Button (Cancel / Neutral)
 
 Background: White / Transparent
 
-Border: 1px solid #E5E7EB
+Border: 1px solid #E5E7EB44     
 
 Text: #111827
 

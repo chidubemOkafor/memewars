@@ -7,6 +7,8 @@ from models.models import User
 import secrets
 import base64
 import hashlib
+
+from types_1 import RoleEnum
 load_dotenv()
 
 CLIENT_ID = os.getenv("TWITTER_CLIENT_ID")
@@ -78,41 +80,48 @@ def create_user(
         token_expires_at, 
         scope: str, 
         token_type: str,
-        db: Session
+        db: Session,
+        role: RoleEnum
         ):
 
-    if isinstance(token_expires_at, int):
-        token_expires_at = datetime.now() + timedelta(seconds=token_expires_at)
+    try:
+        if isinstance(token_expires_at, int):
+            token_expires_at = datetime.now() + timedelta(seconds=token_expires_at)
 
-    user = db.query(User).filter(User.twitter_id == twitter_id).first()
-    if user:
-        user.access_token = access_token
-        user.refresh_token = refresh_token
-        user.username = username
-        user.display_name = display_name
-        user.profile_image_url = profile_image_url
-        user.token_expires_at = token_expires_at
-        user.scope = scope
-        user.token_type = token_type
-        user.updated_at = datetime.now() 
+        user = db.query(User).filter(User.twitter_id == twitter_id).first()
+        if user:
+            user.access_token = access_token
+            user.refresh_token = refresh_token
+            user.username = username
+            user.display_name = display_name
+            user.profile_image_url = profile_image_url
+            user.token_expires_at = token_expires_at
+            user.scope = scope
+            user.role = role
+            user.token_type = token_type
+            user.updated_at = datetime.now()
+        else:
+            user = User(
+                twitter_id=twitter_id,
+                access_token=access_token,
+                refresh_token=refresh_token,
+                username=username,
+                display_name=display_name,
+                profile_image_url=profile_image_url,
+                token_expires_at=token_expires_at,
+                role=role,
+                scope=scope,
+                token_type=token_type
+            )
+            db.add(user)
+
+        db.commit()
+        db.refresh(user)
+        db.close()
+        return user
     
-    else:
-        user = User(
-            twitter_id=twitter_id,
-            access_token=access_token,
-            refresh_token=refresh_token,
-            username=username,
-            display_name=display_name,
-            profile_image_url=profile_image_url,
-            token_expires_at=token_expires_at,
-            scope=scope,
-            token_type=token_type
-        )
-        db.add(user)
-    db.commit()
-    db.refresh(user)
-    db.close()
-    return user
+    except Exception as e:
+        raise ValueError(e)
 
 def generate_token(payload: dict, db: Session):
     ACCESS_SECRET = os.getenv("ACCESS_SECRET")

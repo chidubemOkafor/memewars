@@ -9,20 +9,20 @@ from models.schemas import BadgeSchema
 # functions so the user can check if he has the badge
 # def create_badge():
 
-def create_badge_for_admin(name: str, description: str, rarity: str, category: str, requirements: str, badge_image: str, db: Session):
-    # db.query(Badge)
+def create_badge_for_creator(name: str, description: str, rarity: str, category: str, requirements: str, badge_image: str, db: Session):
+
     badge = db.query(Badge).filter(Badge.name == name).first()
     if badge:
         logger.error(f"badge with name already exists func: {func_name()}")
         return {"error": "badge with name already exists"}, 409
     
     new_badge = Badge(
-        name,
-        description,
-        rarity,
-        category,
-        requirements,
-        badge_image
+        name=name,
+        description=description,
+        rarity=rarity,
+        category=category,
+        requirements=requirements,
+        badge_image=badge_image
     )
 
     db.add(new_badge)

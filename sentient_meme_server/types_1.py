@@ -22,7 +22,7 @@ class RoleEnum(enum.Enum):
     USER = "user"
 
 ROLE_PERMISSIONS = {
-    "admin": ["create_campaign", "delete_user", "view_reports", "edit_meme"],
-    "creator": ["upload_meme", "edit_meme"],
-    "user": ["vote_meme"],
+    "admin": ["create_campaign", "delete_user", "edit_meme", "upload_meme"],
+    "creator": ["upload_meme", "edit_meme", "delete_user", "create_campaign", "delete_user", "delete_admin", "add_admin", "create_badge", "delete_badge"],
+    "user": ["vote_meme", "upload_meme"],
 }

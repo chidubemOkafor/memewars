@@ -28,3 +28,11 @@ class BadgeSchema(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+class BadgeCreate(BaseModel):
+    name: str
+    description: str
+    rarity: RarityEnum
+    category: CategoryEnum
+    requirements: str
+    badge_image: str
